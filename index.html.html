@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tigmi Sweets</title>
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Feather Icons -->
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+<!-- Tailwind Dark Mode -->
+<script>
+    tailwind.config = { darkMode: 'class' }
+</script>
+
+<style>
+body { font-family: 'Inter', system-ui, sans-serif; }
+
+/* Fade-up animation */
+.fade-up { opacity: 1; transform: translateY(20px); } 
+.animate-fade-up { animation: fadeUp 0.7s ease forwards; }
+@keyframes fadeUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+
+/* Price fade animation */
+.fade-price { transition: opacity 0.3s ease; }
+.fade-price.hidden { opacity:0; height:0; overflow:hidden; }
+.fade-price.visible { opacity:1; height:auto; }
+
+/* Pulse animation for order button */
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+.pulse { animation: pulse 2s infinite; }
+
+/* Sparkle animation */
+@keyframes sparkle { 0%,100% { opacity:0; transform: scale(0); } 50% { opacity:1; transform: scale(1.2); } }
+.animate-sparkle { animation: sparkle 1.5s infinite; }
+.delay-200 { animation-delay: 0.2s; }
+
+/* Glow on hover */
+.glow-hover:hover { box-shadow: 0 0 30px rgba(255,200,0,0.6), 0 0 60px rgba(255,200,0,0.4); transition: box-shadow 0.3s ease; }
+
+/* Floating animation */
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.float-animation { animation: float 3s ease-in-out infinite; }
+</style>
+</head>
+
+<body class="bg-amber-50 dark:bg-gray-900 transition-colors duration-300">
+
+<!-- Confetti container -->
+<div id="confetti-container" class="fixed top-0 left-0 w-full h-full pointer-events-none overflow-hidden"></div>
+
+<!-- Sticky Header -->
+<header class="fixed top-0 left-0 w-full bg-amber-50 dark:bg-gray-900 shadow-md z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-amber-900 dark:text-amber-400">Tigmi Sweets</h1>
+
+        <!-- Nav Box -->
+        <nav class="flex space-x-4 bg-amber-100 dark:bg-gray-800 px-4 py-2 rounded-full shadow">
+            <a href="#menu" class="text-amber-900 dark:text-amber-300 font-semibold hover:underline">القائمة</a>
+            <a href="#social" class="text-amber-900 dark:text-amber-300 font-semibold hover:underline">تابعنا</a>
+            <a href="#order" class="text-amber-900 dark:text-amber-300 font-semibold hover:underline">الطلب</a>
+        </nav>
+    </div>
+</header>
+
+
+<!-- Dark Mode Toggle -->
+<button onclick="toggleDarkMode()"
+        class="fixed top-11 right-6 z-50 bg-white dark:bg-gray-800 shadow-lg p-3 rounded-full">
+    <i data-feather="moon" class="dark:hidden"></i>
+    <i data-feather="sun" class="hidden dark:block text-yellow-400"></i>
+</button>
+
+<main class="max-w-7xl mx-auto px-6 py-28">
+
+    <!-- HEADER -->
+    <header class="text-center mb-16 fade-up">
+        <h1 class="text-5xl font-extrabold text-amber-900 dark:text-amber-400 mb-4">
+            Tigmi Sweets
+        </h1>
+        <p class="text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
+            حلويات مغربية أصيلة ومأكولات منزلية شهية
+        </p>
+    </header>
+
+    <!-- MENU -->
+    <section id="menu" class="mb-20">
+        <h2 class="text-3xl font-bold text-center text-amber-900 dark:text-amber-400 mb-12 fade-up">
+            Our Menu
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+
+            <!-- Product Card 1 -->
+            <div onclick="togglePrice('p1', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://huggingface.co/spaces/salahelamim/moroccan-mobile-munchies-magic/resolve/main/images/WhatsApp%20Image%202025-12-24%20at%2023.25..jpeg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">الشباكية</h3>
+                    <p id="p1" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">109.90 MAD</p>
+                </div>
+            </div>
+
+            <!-- Product Card 2 -->
+            <div onclick="togglePrice('p2', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/1200x/8b/66/a1/8b66a1f071e60d1322f907425bf07be2.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">الحرشة</h3>
+                    <p id="p2" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">3.90 MAD</p>
+                </div>
+            </div>
+
+            <!-- Product Card 3 -->
+            <div onclick="togglePrice('p3', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/1200x/24/fd/42/24fd42beb2afee83d126587980f4c5b2.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">البطبوط</h3>
+                    <p id="p3" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">3.90 MAD</p>
+                </div>
+            </div>
+
+            <!-- Product Card 4 -->
+            <div onclick="togglePrice('p4', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/1200x/ad/34/51/ad34514d4c33fd04747885a96385a7ed.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">بشنيخة</h3>
+                    <p id="p4" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">99.90 MAD</p>
+                </div>
+            </div>
+
+            <!-- Product Card 5 -->
+            <div onclick="togglePrice('p5', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/1200x/0f/67/6a/0f676a7004f2222fc33ec12c4cf88c40.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">ريشبونا</h3>
+                    <p id="p5" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">99.90 MAD</p>
+                </div>
+            </div>
+
+            <!-- Product Card 6 -->
+            <div onclick="togglePrice('p6', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/1200x/a6/83/ec/a683ec6388cb3d12e59a4f61e842188b.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">بسطيلة بالدجاج</h3>
+                    <p id="p6" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">12.90 MAD</p>
+                </div>
+            </div>
+
+
+            <!-- Product Card 7 -->
+            <div onclick="togglePrice('p7', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/1200x/6a/83/60/6a83608244087b4332da8cd4da634596.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">مملحات</h3>
+                    <p id="p7" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">99.90 MAD</p>
+                </div>
+            </div>
+
+            <!-- Product Card 8 -->
+            <div onclick="togglePrice('p8', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/736x/ff/ac/20/ffac2024adc49f6ddce0693530773e4c.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">بسطيلة بالسمك</h3>
+                    <p id="p8" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">109.90 MAD</p>
+                </div>
+            </div>
+
+            <!-- Product Card 9 -->
+            <div onclick="togglePrice('p9', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/1200x/0d/04/06/0d04060455103cbda0fa62464f9cf6d4.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">كيش مملحة</h3>
+                    <p id="p9" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">109.90 MAD</p>
+                </div>
+            </div>
+
+
+            <!-- Product Card 10 -->
+            <div onclick="togglePrice('p10', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/1200x/ac/ca/03/acca0331ae298b03f224b0bec8223a54.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">بليغات</h3>
+                    <p id="p10" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">109.90 MAD</p>
+                </div>
+            </div>
+
+
+            <!-- Product Card 11 -->
+            <div onclick="togglePrice('p11', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/1200x/da/07/d0/da07d05ef9fc3b8c12ca9a2d35b30699.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">كريب مملح</h3>
+                    <p id="p11" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">109.90 MAD</p>
+                </div>
+            </div>
+
+            <!-- Product Card 12 -->
+            <div onclick="togglePrice('p12', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/1200x/36/b3/80/36b3807b0e7e0911f7f0b6b35b54d88e.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">بيدزا صغيرة</h3>
+                    <p id="p12" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">109.90 MAD</p>
+                </div>
+            </div>
+
+            <!-- Product Card 13 -->
+            <div onclick="togglePrice('p13', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/736x/8f/63/f1/8f63f13465883864dd6c9dc2be711739.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">بريوات</h3>
+                    <p id="p13" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">109.90 MAD</p>
+                </div>
+            </div>
+
+            <!-- Product Card 14 -->
+            <div onclick="togglePrice('p14', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/1200x/f4/48/db/f448db8680b90888a205c9fc0593c615.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">بريوات معسلة</h3>
+                    <p id="p14" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">3.90 MAD</p>
+                </div>
+            </div>
+
+             <!-- Product Card 15 -->
+            <div onclick="togglePrice('p15', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/1200x/40/03/fc/4003fc4dd98d8f85e732495fb713d930.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">بريوش</h3>
+                    <p id="p15" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">109.90 MAD</p>
+                </div>
+            </div>
+
+            <!-- Product Card 16 -->
+            <div onclick="togglePrice('p16', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/736x/31/1c/41/311c4132f62412937efed0dcca0c46bb.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">مسمن معمر</h3>
+                    <p id="p16" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">109.90 MAD</p>
+                </div>
+            </div>
+
+            <!-- Product Card 17 -->
+            <div onclick="togglePrice('p17', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/1200x/90/dc/da/90dcdaa7aa6b6955ad829db63d872cb5.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">بغرير</h3>
+                    <p id="p17" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">109.90 MAD</p>
+                </div>
+            </div>
+
+            <!-- Product Card 18 -->
+            <div onclick="togglePrice('p18', event)"
+                 class="group transform bg-white dark:bg-gray-800 rounded-3xl shadow-lg transition overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105 hover:rotate-1 fade-up glow-hover float-animation">
+                <img loading="lazy" src="https://i.pinimg.com/1200x/99/cc/91/99cc917b34b82f77881c4a279d8791e6.jpg"
+                     class="h-56 w-full object-cover group-hover:scale-105 transition">
+                <div class="p-6 text-center">
+                    <h3 class="text-xl font-semibold text-amber-800 dark:text-amber-300">كيك الشكلاطة</h3>
+                    <p id="p18" class="fade-price hidden mt-3 text-lg font-bold text-amber-900 dark:text-amber-400">109.90 MAD</p>
+                </div>
+            </div>
+
+        </div>
+
+        <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-8 fade-up">
+            
+        </p>
+    </section>
+
+    <!-- SOCIAL -->
+    <section id="social" class="text-center mb-16 fade-up">
+        <h3 class="text-xl font-semibold text-amber-900 dark:text-amber-400 mb-6">Follow Us</h3>
+        <div class="flex justify-center gap-10">
+            <a href="https://www.instagram.com/tigm.isweet" target="_blank"
+               class="text-amber-700 dark:text-amber-400 transition-transform hover:scale-125">
+                <i data-feather="instagram" class="w-8 h-8"></i>
+            </a>
+            <a href="https://web.facebook.com/share/1GSgEKzPA3/" target="_blank"
+               class="text-amber-700 dark:text-amber-400 transition-transform hover:scale-125">
+                <i data-feather="facebook" class="w-8 h-8"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- ORDER -->
+<section id="order" class="text-center fade-up">
+    <a href="https://wa.me/212604530866?text=مرحبا%20👋%20أود%20طلب%20هذا%20المنتج.%20من%20فضلكم%20تواصلوا%20معي."
+       target="_blank"
+       class="pulse relative inline-flex items-center gap-3 bg-green-600 hover:bg-green-700 text-white px-12 py-4 rounded-full text-lg font-semibold shadow-xl transition overflow-hidden">
+        <i data-feather="message-circle"></i>
+        Order on WhatsApp الطلب على الواتساب
+        <span class="absolute w-2 h-2 bg-yellow-300 rounded-full top-2 left-2 animate-sparkle"></span>
+        <span class="absolute w-2 h-2 bg-yellow-300 rounded-full bottom-2 right-2 animate-sparkle delay-200"></span>
+    </a>
+</section>
+
+
+</main>
+
+<script>
+    // Confetti
+    function createConfetti(x, y) {
+        for (let i = 0; i < 15; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'absolute w-2 h-2 rounded-full bg-amber-400 dark:bg-yellow-300';
+            confetti.style.left = x + 'px';
+            confetti.style.top = y + 'px';
+            confetti.style.transform = `translate(${Math.random()*100-50}px, ${Math.random()*-100}px) rotate(${Math.random()*360}deg)`;
+            confetti.style.opacity = 1;
+            confetti.style.transition = 'all 0.8s ease-out';
+            document.getElementById('confetti-container').appendChild(confetti);
+            setTimeout(() => { confetti.style.transform += ' translateY(150px)'; confetti.style.opacity=0; }, 10);
+            setTimeout(() => confetti.remove(), 800);
+        }
+    }
+
+    // Toggle Price
+    function togglePrice(id, event){
+        const el = document.getElementById(id);
+        el.classList.toggle('hidden');
+        if(event){
+            const rect = event.currentTarget.getBoundingClientRect();
+            createConfetti(rect.left + rect.width/2, rect.top + rect.height/2);
+        }
+    }
+
+    // Dark Mode
+    function toggleDarkMode() { document.documentElement.classList.toggle('dark'); feather.replace(); }
+
+    // Smooth scroll
+    document.querySelectorAll('nav a').forEach(link=>{
+        link.addEventListener('click',(e)=>{
+            e.preventDefault();
+            document.querySelector(link.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+        });
+    });
+
+    // Fade-up on scroll
+    const fadeElements = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver(entries=>{
+        entries.forEach(entry=>{
+            if(entry.isIntersecting){ entry.target.classList.add('animate-fade-up'); observer.unobserve(entry.target); }
+        });
+    }, {threshold:0.1});
+    fadeElements.forEach(el=>observer.observe(el));
+
+    feather.replace();
+</script>
+
+
+<!-- Welcome Avatar with Typing Animation -->
+<div id="welcome-avatar"
+     class="fixed bottom-6 left-6 flex items-center gap-3 bg-white dark:bg-gray-800 shadow-xl p-4 rounded-2xl z-50">
+
+    <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/20538554-avatar-de-une-marocains-personnage-gratuit-vectoriel.jpg"
+         alt="Avatar"
+         class="w-12 h-12 rounded-full float-animation">
+
+    <div class="max-w-xs">
+        <p id="avatar-message"
+           class="text-amber-900 dark:text-amber-300 font-semibold text-sm"></p>
+    </div>
+
+    <button onclick="document.getElementById('welcome-avatar').remove()"
+            class="ml-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl">
+        &times;
+    </button>
+</div>
+
+<script>
+    const avatarText = "أهلاً بكم !!!  انقر على أي منتج لمعرفة سعره..Welcome!! Click on any product to see the price!";
+    const avatarMessage = document.getElementById("avatar-message");
+    let index = 0;
+
+    function typeAvatarMessage() {
+        if (index < avatarText.length) {
+            avatarMessage.textContent += avatarText.charAt(index);
+            index++;
+            setTimeout(typeAvatarMessage, 45);
+        }
+    }
+
+    typeAvatarMessage();
+</script>
+
+</body>
+</html>
